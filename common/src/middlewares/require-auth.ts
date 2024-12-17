@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import User from "../../../build";
+import User from "../../../app/build";
 import { NotAuthorizedError } from "../errors/not-authorized-error";
 
 export const requireAuth = async (
