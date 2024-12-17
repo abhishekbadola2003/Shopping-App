@@ -1,10 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import User from "../../";
 import { NotAuthorizedError } from "../errors/not-authorized-error";
-import { currentUser } from "../../common/middlewares/current-user";
 
 export const requireAuth = async (
-  req: Request,
+  req: Req,
   res: Response,
   next: NextFunction
 ) => {
