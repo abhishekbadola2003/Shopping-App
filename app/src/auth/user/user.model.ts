@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { UserDoc, UserModel } from "@shoppingapp/common";
+import { AuthenticationService, UserDoc, UserModel } from "@shoppingapp/common";
 const schema = new mongoose.Schema(
   {
     email: {
@@ -21,4 +21,17 @@ const schema = new mongoose.Schema(
     },
   }
 );
+
+schema.pre("save", async function (done) {
+  const authenticationService = new AuthenticationService();
+  if (this.isModified("password") || this.isNew) {
+    const hashedPassword = authenticationService.pwdToHash(
+      this.get("password")
+    );
+    this.set("password", hashedPassword);
+  }
+
+  done();
+});
+
 export const User = mongoose.model<UserDoc, UserModel>("User", schema);
