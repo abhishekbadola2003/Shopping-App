@@ -5,6 +5,7 @@ import cors from "cors";
 import cookieSession from "cookie-session";
 import mongoose, { Error } from "mongoose";
 import { json, urlencoded } from "body-parser";
+import { errorHandler } from "@shoppingapp/common";
 
 export class AppModule {
   constructor(public app: Application) {
@@ -26,6 +27,10 @@ export class AppModule {
         secure: false,
       })
     );
+
+    app.use(errorHandler);
+
+    Object.setPrototypeOf(this, AppModule.prototype);
   }
   async start() {
     if (!process.env.MONGO_URI) {
