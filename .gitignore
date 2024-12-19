@@ -2,3 +2,4 @@
 credentials.json
 *.key
 *.pem
+node_modules

@@ -12,7 +12,7 @@ export * from "./middlewares/current-user";
 // export * from "./middlewares/uploader";
 
 // export * from "./constants/auth/user.interfaces";
-// export * from "./services/authentication.service";
+export * from "./services/authentication.service";
 // export * from "./constants/globals";
 // export * from "./constants/seller/product.interfaces";
 // export * from "./constants/buyer/cart-product.inerfaces";
