@@ -52,6 +52,8 @@ const cors_1 = __importDefault(require("cors"));
 const cookie_session_1 = __importDefault(require("cookie-session"));
 const mongoose_1 = __importStar(require("mongoose"));
 const body_parser_1 = require("body-parser");
+const common_1 = require("@shoppingapp/common");
+const auth_routers_1 = require("./auth/auth.routers");
 class AppModule {
     constructor(app) {
         this.app = app;
@@ -67,6 +69,9 @@ class AppModule {
             signed: false,
             secure: false,
         }));
+        app.use(common_1.errorHandler);
+        app.use(auth_routers_1.authRouters);
+        Object.setPrototypeOf(this, AppModule.prototype);
     }
     start() {
         return __awaiter(this, void 0, void 0, function* () {
