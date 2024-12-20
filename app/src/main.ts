@@ -14,6 +14,8 @@ const bootstrap = () => {
   const app = new AppModule(express());
 
   app.start();
+
+  console.log("Shopping App Running!");
 };
 
 bootstrap();
