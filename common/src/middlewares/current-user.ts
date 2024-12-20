@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 declare global {
   interface Req extends Request {
     session?: any;
-    currentUser: any;
+    currentUser?: any;
   }
 }
 

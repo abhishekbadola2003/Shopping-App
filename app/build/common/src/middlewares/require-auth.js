@@ -8,18 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.requireAuth = void 0;
-const build_1 = __importDefault(require("../../../app/build"));
+const user_model_1 = require("../../../app/src/auth/user/user.model");
 const not_authorized_error_1 = require("../errors/not-authorized-error");
 const requireAuth = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     if (!req.currentUser)
         throw new not_authorized_error_1.NotAuthorizedError();
-    const user = yield build_1.default.findById((_a = req.currentUser) === null || _a === void 0 ? void 0 : _a.userId);
+    const user = yield user_model_1.User.findById((_a = req.currentUser) === null || _a === void 0 ? void 0 : _a.userId);
     if (!user)
         throw new not_authorized_error_1.NotAuthorizedError();
     next();
