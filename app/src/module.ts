@@ -6,7 +6,7 @@ import cookieSession from "cookie-session";
 import mongoose, { Error } from "mongoose";
 import { json, urlencoded } from "body-parser";
 import { errorHandler } from "@shoppingapp/common";
-
+import { authRouters } from "./auth/auth.routers";
 export class AppModule {
   constructor(public app: Application) {
     app.set("trust-proxy", true);
@@ -29,6 +29,7 @@ export class AppModule {
     );
 
     app.use(errorHandler);
+    app.use(authRouters);
 
     Object.setPrototypeOf(this, AppModule.prototype);
   }
