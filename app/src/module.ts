@@ -43,8 +43,9 @@ export class AppModule {
     try {
       await mongoose.connect(process.env.MONGO_URI);
     } catch (err) {
-      throw new Error("database coonection failed");
+      throw new Error("database connection failed");
     }
     this.app.listen(8080, () => console.log("OK! port: 8080"));
+    mongoose.set("strictQuery", true);
   }
 }

@@ -8,7 +8,7 @@
     "build/**/*"
   ],
   "scripts": {
-    "compile": "tsc && node ./dist/src/main.js",
+    "compile": "tsc && node ./dist/src/app/src/main.js",
     "start": "nodemon -e ts --exec \"npm run compile",
     "clean": "del ./build/",
     "build": "npm run clean && tsc",
@@ -24,6 +24,7 @@
     "@types/jsonwebtoken": "^8.5.9",
     "@types/multer": "^1.4.7",
     "cookie-session": "^2.1.0",
+    "dotenv": "^16.4.7",
     "express": "^4.18.1",
     "express-validator": "^6.14.2",
     "jsonwebtoken": "^9.0.2",

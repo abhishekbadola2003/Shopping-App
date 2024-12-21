@@ -1,6 +1,6 @@
 import { Router, Response, Request, NextFunction } from "express";
 import { authService } from "./auth.service";
-import { currentUser } from "@shoppingapp/common";
+import { BadRequestError, currentUser } from "@shoppingapp/common";
 
 const router = Router();
 
@@ -9,21 +9,23 @@ router.post(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
 
-    const jwt = await authService.signup({ email, password }, next);
+    const result = await authService.signup({ email, password });
 
-    req.session = { jwt };
+    if (result.message) return next(new BadRequestError(result.message));
+    req.session = { jwt: result.jwt };
     res.status(201).send(true);
   }
 );
 
-router.get(
+router.post(
   "/signin",
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
 
-    const jwt = await authService.signin({ email, password }, next);
+    const result = await authService.signin({ email, password });
 
-    req.session = { jwt };
+    if (result.message) return next(new BadRequestError(result.message));
+    req.session = { jwt: result.jwt };
     res.status(201).send(true);
   }
 );
