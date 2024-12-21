@@ -25,7 +25,7 @@ export class AuthService {
 
   async signin(signInDTO: AuthDto) {
     const user = await this.userService.findOneByEmail(signInDTO.email);
-    if (!user) return { message: "wrong Credentials user odesn't exist" };
+    if (!user) return { message: "wrong Credentials user doesn't exist" };
 
     const samePwd = this.authenticationService.pwdCompare(
       user.password,
