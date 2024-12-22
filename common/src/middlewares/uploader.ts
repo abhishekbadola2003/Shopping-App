@@ -1,3 +1,4 @@
+import { UploaderMiddlewareOptions } from "@shoppingapp/common";
 import multer, { FileFilterCallback } from "multer";
 
 export class Uploader {
@@ -17,8 +18,29 @@ export class Uploader {
   };
 
   public storage = multer.diskStorage({
-    destination: (erq, file, cb) => {
-      //   cb(null, this.uploadDir || this.defaultUploadDir);
+    destination: (req, file, cb) => {
+      cb(null, this.uploadDir || this.defaultUploadDir);
+    },
+    filename: (req, file, cb) => {
+      cb(null, file.fieldname + Date.now());
     },
   });
+
+  public defaultUploadDir = "/upload";
+
+  constructor(public uploadDir?: string) {}
+
+  uploadMultipleFiles(options: UploaderMiddlewareOptions) {
+    return multer({
+      storage: this.storage,
+      fileFilter: this.FileFilter(options.types),
+    }).array(options.fieldName || "file");
+  }
+
+  uploadSingleFile(options: UploaderMiddlewareOptions) {
+    return multer({
+      storage: this.storage,
+      fileFilter: this.FileFilter(options.types),
+    }).single(options.fieldName || "file");
+  }
 }
