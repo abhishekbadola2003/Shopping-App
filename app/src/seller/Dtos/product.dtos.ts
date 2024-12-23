@@ -6,3 +6,15 @@ export interface CreateProductDto {
   userId: string;
   files: Request["files"];
 }
+
+export interface UpdateProductDto {
+  userId: string;
+  title: string;
+  price: number;
+  productId: string;
+}
+
+export interface DeleteProductDto {
+  productId: string;
+  userId: string;
+}
