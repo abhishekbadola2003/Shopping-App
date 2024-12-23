@@ -69,8 +69,6 @@ class AppModule {
             signed: false,
             secure: false,
         }));
-        app.use(common_1.errorHandler);
-        app.use(auth_routers_1.authRouters);
         Object.setPrototypeOf(this, AppModule.prototype);
     }
     start() {
@@ -87,6 +85,9 @@ class AppModule {
             catch (err) {
                 throw new mongoose_1.Error("database connection failed");
             }
+            this.app.use((0, common_1.currentUser)(process.env.JWT_KEY));
+            this.app.use(common_1.errorHandler);
+            this.app.use(auth_routers_1.authRouters);
             this.app.listen(8080, () => console.log("OK! port: 8080"));
             mongoose_1.default.set("strictQuery", true);
         });
