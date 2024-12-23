@@ -1,9 +1,10 @@
 import { ProductModel } from "@shoppingapp/common";
 import { Product } from "./product.model";
-import { CreateProductDto } from "../Dtos/product.dtos";
+import { CreateProductDto, UpdateProductDto } from "../Dtos/product.dtos";
 import { buffer } from "stream/consumers";
 import fs from "fs";
 import path from "path";
+import { title } from "process";
 
 export class ProductService {
   constructor(public productModel: ProductModel) {}
@@ -20,6 +21,13 @@ export class ProductService {
     return await product.save();
   }
 
+  async UpdateProduct(updateProductDto: UpdateProductDto) {
+    return await this.productModel.findOneAndUpdate(
+      { _id: updateProductDto.productId },
+      { set: { title: updateProductDto.title, price: updateProductDto.price } },
+      { new: true }
+    );
+  }
   generateBase64Url(contentType: string, buffer: Buffer) {
     return `data:${contentType}; base64,${buffer.toString("base64")}`;
   }
