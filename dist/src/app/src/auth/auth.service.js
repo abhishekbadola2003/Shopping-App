@@ -31,7 +31,7 @@ class AuthService {
         return __awaiter(this, void 0, void 0, function* () {
             const user = yield this.userService.findOneByEmail(signInDTO.email);
             if (!user)
-                return { message: "wrong Credentials user odesn't exist" };
+                return { message: "wrong Credentials user doesn't exist" };
             const samePwd = this.authenticationService.pwdCompare(user.password, signInDTO.password);
             if (!samePwd)
                 return { message: "wrong Credentials" };
