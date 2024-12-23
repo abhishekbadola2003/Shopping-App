@@ -5,7 +5,7 @@ import cors from "cors";
 import cookieSession from "cookie-session";
 import mongoose, { Error } from "mongoose";
 import { json, urlencoded } from "body-parser";
-import { errorHandler } from "@shoppingapp/common";
+import { errorHandler, currentUser } from "@shoppingapp/common";
 import { authRouters } from "./auth/auth.routers";
 export class AppModule {
   constructor(public app: Application) {
@@ -28,9 +28,6 @@ export class AppModule {
       })
     );
 
-    app.use(errorHandler);
-    app.use(authRouters);
-
     Object.setPrototypeOf(this, AppModule.prototype);
   }
   async start() {
@@ -45,6 +42,10 @@ export class AppModule {
     } catch (err) {
       throw new Error("database connection failed");
     }
+
+    this.app.use(currentUser(process.env.JWT_KEY!));
+    this.app.use(errorHandler);
+    this.app.use(authRouters);
     this.app.listen(8080, () => console.log("OK! port: 8080"));
     mongoose.set("strictQuery", true);
   }
