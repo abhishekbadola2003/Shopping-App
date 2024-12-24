@@ -24,8 +24,8 @@ export interface AddImagesDto {
   productId: string;
   files: Request["files"];
 }
-port interface DeleteImagesDto {
+export interface DeleteImagesDto {
   userId: string;
   productId: string;
-  imagesIds: Array<string>
+  imagesIds: Array<string>;
 }
