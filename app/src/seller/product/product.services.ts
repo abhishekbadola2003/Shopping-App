@@ -1,6 +1,12 @@
 import { ProductModel } from "@shoppingapp/common";
 import { Product } from "./product.model";
-import { CreateProductDto, UpdateProductDto } from "../Dtos/product.dtos";
+import {
+  CreateProductDto,
+  DeleteProductDto,
+  AddImagesDto,
+  DeleteImagesDto,
+  UpdateProductDto,
+} from "../Dtos/product.dtos";
 import { buffer } from "stream/consumers";
 import fs from "fs";
 import path from "path";
@@ -28,6 +34,29 @@ export class ProductService {
       { new: true }
     );
   }
+
+  async DeleteProduct(deleteProductDto: DeleteProductDto) {
+    return await this.productModel.findByIdAndRemove({
+      _id: deleteProductDto.productId,
+    });
+  }
+  async addImages(addImagesDto: AddImagesDto) {
+    const images = this.generateProductImages(addImagesDto.files);
+    return await this.productModel.findOneAndUpdate(
+      { _id: addImagesDto.productId },
+      { $push: { images: { $each: images } } },
+      { new: true }
+    );
+  }
+
+  async deleteImages(deleteImagesDto: DeleteImagesDto) {
+    return await this.productModel.findOneAndUpdate(
+      { _id: deleteImagesDto.productId },
+      { $pull: { images: { _id: { $in: deleteImagesDto.imagesIds } } } },
+      { new: true }
+    );
+  }
+
   generateBase64Url(contentType: string, buffer: Buffer) {
     return `data:${contentType}; base64,${buffer.toString("base64")}`;
   }
