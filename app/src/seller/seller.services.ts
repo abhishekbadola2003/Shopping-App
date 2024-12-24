@@ -2,6 +2,8 @@ import {
   CreateProductDto,
   DeleteProductDto,
   UpdateProductDto,
+  AddImagesDto,
+  DeleteImagesDto,
 } from "./Dtos/product.dtos";
 import { productService, ProductService } from "./product/product.services";
 import { BadRequestError, NotAuthorizedError } from "@shoppingapp/common";
@@ -24,10 +26,39 @@ export class SellerService {
     return await this.productService.UpdateProduct(updateProductDto);
   }
 
+  async addProductImages(addImagesDto: AddImagesDto) {
+    const product = await this.productService.getOneById(
+      addImagesDto.productId
+    );
+    if (!product) return new BadRequestError("product not found!");
+    if (product.user.toString() !== addImagesDto.userId) {
+      return new NotAuthorizedError();
+    }
+
+    return await this.productService.addImages(addImagesDto);
+  }
+
   async deleteProduct(deleteProductDto: DeleteProductDto) {
     const product = await this.productService.getOneById(
-      updateProductDto.product
+      deleteProductDto.productId
     );
+    if (!product) return new BadRequestError("product not found! ");
+    if (product.user.toString() !== deleteProductDto.productId) {
+      return new NotAuthorizedError();
+    }
+    return await this.productService.DeleteProduct(deleteProductDto);
+  }
+
+  async deleteProductImages(deleteImagesDto: DeleteImagesDto) {
+    const product = await this.productService.getOneById(
+      deleteImagesDto.productId
+    );
+    if (!product) return new BadRequestError("product not found!");
+    if (product.user.toString() !== deleteImagesDto.userId) {
+      return new NotAuthorizedError();
+    }
+
+    return await this.productService.deleteImages(deleteImagesDto);
   }
 }
 
