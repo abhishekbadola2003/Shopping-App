@@ -7,6 +7,7 @@ import mongoose, { Error } from "mongoose";
 import { json, urlencoded } from "body-parser";
 import { errorHandler, currentUser } from "@shoppingapp/common";
 import { authRouters } from "./auth/auth.routers";
+import { sellerRouters } from "./seller/seller.routers";
 export class AppModule {
   constructor(public app: Application) {
     app.set("trust-proxy", true);
@@ -46,6 +47,7 @@ export class AppModule {
     this.app.use(currentUser(process.env.JWT_KEY!));
     this.app.use(errorHandler);
     this.app.use(authRouters);
+    this.app.use(sellerRouters);
     this.app.listen(8080, () => console.log("OK! port: 8080"));
     mongoose.set("strictQuery", true);
   }
